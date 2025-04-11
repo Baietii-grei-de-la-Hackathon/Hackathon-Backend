@@ -1,3 +1,5 @@
+using QubHQ_Services.Services;
+
 namespace Hackathon_Backend;
 
 public class Program
@@ -12,6 +14,8 @@ public class Program
         // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
         builder.Services.AddEndpointsApiExplorer();
         builder.Services.AddSwaggerGen();
+
+        builder.Services.AddHttpClient<VeryfiService>();
 
         var app = builder.Build();
 
