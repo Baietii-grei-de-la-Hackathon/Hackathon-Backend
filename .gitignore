@@ -1,2 +1,7 @@
-/Hackathon-Backend/obj
 /.idea
+/QubHQ-API/obj/
+/QubHQ-API/bin/
+/QubHQ-Repo/bin/
+/QubHQ-Repo/obj/
+/QubHQ-Services/obj/
+/QubHQ-Services/bin/
