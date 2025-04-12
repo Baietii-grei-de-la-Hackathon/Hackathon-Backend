@@ -2,6 +2,8 @@ using Hackathon_Backend.Startup;
 using Microsoft.EntityFrameworkCore;
 using QubHq_Repo;
 
+using QubHQ_Services.Services;
+
 namespace Hackathon_Backend;
 
 public class Program
@@ -22,6 +24,8 @@ public class Program
         builder.Services.AddDbContext<QubHQDbContext>(options =>
             options.UseSqlServer(connectionString, x => x.MigrationsAssembly("QubHQ-Repo")));
         
+
+        builder.Services.AddHttpClient<VeryfiService>();
 
         var app = builder.Build();
 
