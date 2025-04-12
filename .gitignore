@@ -5,3 +5,5 @@
 /QubHQ-Repo/obj/
 /QubHQ-Services/obj/
 /QubHQ-Services/bin/
+/.vs
+QubHQ-API/QubHQ-API.csproj.user
