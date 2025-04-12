@@ -1,56 +1,59 @@
-using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using QubHq_Repo.Enums;
-using QubHq_Repo.GenericEnumFunctions;
 using QubHq_Repo.Models;
 using Transaction = QubHq_Repo.Models.Transaction;
 
 namespace QubHq_Repo;
 
-public class QubHQDbContext : IdentityDbContext<User>
+public class QubHQDbContext : DbContext
 {
     public QubHQDbContext(DbContextOptions<QubHQDbContext> options) : base(options)
     {
     }
 
-    public override DbSet<User> Users { get; set; }
-    public DbSet<Payer> Payees { get; set; }
+    public DbSet<User> Users { get; set; }
+    public DbSet<User> Payees { get; set; }
     public DbSet<Transaction> Transactions { get; set; }
-
 
     protected override void OnModelCreating(ModelBuilder builder)
     {
         base.OnModelCreating(builder);
 
-        builder.Entity<User>()
-            .HasMany(t => t.Transactions)
-            .WithOne(u => u.Payee)
-            .HasForeignKey(u => u.PayeeId)
-            .IsRequired()
-            .OnDelete(DeleteBehavior.Cascade);
-
-        builder.Entity<User>()
-            .HasMany(t => t.Payees)
-            .WithOne(u => u.Account)
-            .HasForeignKey(u => u.AccountId)
-            .OnDelete(DeleteBehavior.NoAction);
-
         builder.Entity<Transaction>()
-            .HasMany(p => p.Payers)
+            .HasMany(p => p.Users)
             .WithOne(p => p.Transaction)
             .HasForeignKey(p => p.TransactionId)
             .IsRequired()
-            .OnDelete(DeleteBehavior.Cascade);
+            .OnDelete(DeleteBehavior.Cascade); 
 
-        builder.Entity<Transaction>()
-            .Property(t => t.Status)
-            .HasDefaultValue(TransactionStatusEnum.Pending);
+        builder.Entity<User>()
+            .Property(t => t.DidPay)
+            .HasDefaultValue(false);   
+        
+        builder.Entity<User>()
+            .Property(t => t.IsPayee)
+            .HasDefaultValue(false);
 
         builder.Entity<Transaction>()
             .Property(t => t.Date)
             .HasDefaultValue(DateTime.UtcNow);
-
+        
+        builder.Entity<Transaction>()
+            .Property(t => t.PaidToRestaurant)
+            .HasDefaultValue(false);
+        
         builder.Entity<TransactionStatus>()
-            .HasData(EnumFunctions.GetModelsFromEnum<TransactionStatus, TransactionStatusEnum>());
+            .Property(e => e.Id)
+            .ValueGeneratedNever();
+        
+        builder.Entity<TransactionStatus>().HasData(
+            Enum.GetValues(typeof(TransactionStatusEnum))
+                .Cast<TransactionStatusEnum>()
+                .Select(e => new TransactionStatus
+                {
+                    Id = (int)e,
+                    Name = e.ToString()
+                })
+        );
     }
 }

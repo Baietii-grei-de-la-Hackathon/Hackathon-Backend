@@ -1,15 +1,15 @@
 using QubHq_Repo.Enums;
 
-namespace QubHq_Repo.Models;
+namespace QubHQ_Services.Dtos;
 
-public class Transaction
+public class TransactionDto
 {
-    public Guid Id { get; set; }
+    public Guid? Id { get; set; }
     public DateTime Date { get; set; }
     public string? Description { get; set; }
-    public List<User> Users { get; set; }
+    public List<UserDto> UserDtos { get; set; }
     public int TransactionStatusId { get; set; }
-    public TransactionStatus Status { get; set; }
+    public string Status { get; set; }
     public bool PaidToRestaurant { get; set; }
     public string Passcode { get; set; }
-}   
+}
