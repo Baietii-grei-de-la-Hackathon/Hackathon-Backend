@@ -16,26 +16,27 @@ public class TransactionController : ControllerBase
     }
 
     [HttpGet("{id}")]
-    public async Task<IActionResult> GetTransaction(Guid id)
+    public async Task<TransactionDto> GetTransaction(Guid id)
     {
-        return Ok(await _transactionService.GetTransactionByIdAsync(id));
+        var transaction = await _transactionService.GetTransactionByIdAsync(id);
+        return transaction;
     }
 
     [HttpPost]
-    public async Task<IActionResult> CreateTransaction([FromBody] TransactionDto transactionDto)
+    public async Task<Guid> CreateTransaction([FromBody] TransactionDto transactionDto)
     {
-        return Ok(await _transactionService.CreateTransactionAsync(transactionDto));
+        return await _transactionService.CreateTransactionAsync(transactionDto);
     }
 
     [HttpPut("{id}")]
-    public async Task<IActionResult> UpdateTransaction([FromBody] TransactionDto transactionDto)
+    public async Task<bool> UpdateTransaction([FromBody] TransactionDto transactionDto)
     {
-        return Ok(await _transactionService.UpdateTransactionAsync(transactionDto));
+        return await _transactionService.UpdateTransactionAsync(transactionDto);
     }
 
     [HttpDelete("{id}")]
-    public async Task<IActionResult> DeleteTransaction(Guid id)
+    public async Task<bool> DeleteTransaction(Guid id)
     {
-        return Ok(await _transactionService.DeleteTransactionAsync(id));
+        return await _transactionService.DeleteTransactionAsync(id);
     }
 }

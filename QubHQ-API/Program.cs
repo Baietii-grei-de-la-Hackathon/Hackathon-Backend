@@ -13,7 +13,6 @@ public class Program
         var builder = WebApplication.CreateBuilder(args);
 
         builder.Services.ConfigureServices(builder.Configuration);
-        builder.Services.ConfigureCors();
         
         var app = builder.Build();
 
@@ -29,6 +28,8 @@ public class Program
         app.UseAuthorization();
 
         app.MapControllers();
+
+        app.UseCors();
 
         app.Run();
     }

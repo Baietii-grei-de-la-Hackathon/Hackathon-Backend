@@ -18,18 +18,23 @@ public static class Module
         services.AddScoped<IUnitOfWork, UnitOfWork>();
         services.AddTransient<ITransactionService, TransactionService>();
         
-        services.AddHttpClient<VeryfiService>();
+        services.AddSignalR();
         services.AddControllers();
         services.AddEndpointsApiExplorer();
         services.AddSwaggerGen();
+        services.ConfigureCors();
+        services.AddHttpClient();
     }
     
     public static void ConfigureCors(this IServiceCollection services)
     {
-        services.AddCors(o => o.AddDefaultPolicy(builder => builder
-            .AllowAnyOrigin()
-            .AllowAnyHeader()
-            .AllowAnyMethod()
-        ));
+        services.AddCors(o =>
+        {
+            o.AddDefaultPolicy(builder => builder
+                .AllowAnyOrigin()
+                .AllowAnyHeader()
+                .AllowAnyMethod()
+            );
+        });
     }
 }

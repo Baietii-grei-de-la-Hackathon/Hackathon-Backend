@@ -18,7 +18,7 @@ public class TransactionService : ITransactionService
     public async Task<TransactionDto> GetTransactionByIdAsync(Guid id)
     {
         var transactionRepo = _unitOfWork.GetRepository<Transaction>();
-        var transaction = await transactionRepo.GetAll().Where(t => t.Id == id).Include(t => t.Users)
+        var transaction = await transactionRepo.GetAll().Where(t => t.Id == id).Include(t => t.Users).Include(t => t.Status)
             .FirstOrDefaultAsync();
 
         if (transaction is null)
