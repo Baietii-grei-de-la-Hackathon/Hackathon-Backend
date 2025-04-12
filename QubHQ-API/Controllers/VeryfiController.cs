@@ -8,9 +8,9 @@ namespace Hackathon_Backend.Controllers;
 [ApiController]
 public class VeryfiController : ControllerBase
 {
-    private readonly VeryfiService _veryfiService;
+    private readonly IVeryfiService _veryfiService;
 
-    public VeryfiController(VeryfiService veryfiService)
+    public VeryfiController(IVeryfiService veryfiService)
     {
         _veryfiService = veryfiService;
     }
