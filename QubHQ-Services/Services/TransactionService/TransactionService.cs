@@ -30,6 +30,9 @@ public class TransactionService : ITransactionService
     public async Task<Guid> CreateTransactionAsync(TransactionDto transactionDto)
     {
         var transactionRepo = _unitOfWork.GetRepository<Transaction>();
+        
+        EnsureThereIsAPayeeForTransaction(transactionDto);
+
         var transaction = transactionDto.ToModel();
 
         await transactionRepo.AddAsync(transaction);
@@ -43,7 +46,9 @@ public class TransactionService : ITransactionService
         var transactionRepo = _unitOfWork.GetRepository<Transaction>();
         var transaction = await transactionRepo.GetAll().Where(t => t.Id == transactionDto.Id)
             .Include(t => t.Users).FirstOrDefaultAsync();
-
+        
+        EnsureThereIsAPayeeForTransaction(transactionDto);
+        
         if (transaction != null) transaction.UpdateModel(transactionDto);
         var state = transactionRepo.Update(transaction);
         _unitOfWork.Commit();
@@ -71,5 +76,24 @@ public class TransactionService : ITransactionService
         }
 
         return false;
+    }
+
+    private static void EnsureThereIsAPayeeForTransaction(TransactionDto transactionDto)
+    {
+        if (!transactionDto.UserDtos.Any(u => u.IsPayee))
+        {
+            var validCandidates = transactionDto.UserDtos
+                .Where(u => !string.IsNullOrWhiteSpace(u.Email) || !string.IsNullOrWhiteSpace(u.PhoneNo))
+                .ToList();
+
+            if (!validCandidates.Any())
+                throw new InvalidOperationException("At least one user must have a phone number or email to be set as payee.");
+
+            var random = new Random();
+            var selected = validCandidates[random.Next(validCandidates.Count)];
+
+            foreach (var user in transactionDto.UserDtos)
+                user.IsPayee = user == selected; 
+        }
     }
 }
