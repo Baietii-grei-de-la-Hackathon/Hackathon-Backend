@@ -1,8 +1,8 @@
-using System.Text.Json;
+using QubHQ_Services.Dtos;
 
-namespace QubHQ_Services.Services;
+namespace QubHQ_Services.Services.VerifyService;
 
 public interface IVeryfiService
 {
-    Task<JsonDocument> ExtractText(string base64Image);
+    Task<bool> ExtractText(ImageDto imageDto);
 }

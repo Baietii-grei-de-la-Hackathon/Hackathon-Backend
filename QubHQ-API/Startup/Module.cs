@@ -1,8 +1,11 @@
+using Hackathon_Backend.Settings;
 using Microsoft.EntityFrameworkCore;
 using QubHq_Repo;
 using QubHq_Repo.UnitOfWork;
 using QubHQ_Services.Services;
+using QubHQ_Services.Services.Item;
 using QubHQ_Services.Services.TransactionService;
+using QubHQ_Services.Services.VerifyService;
 
 namespace Hackathon_Backend.Startup;
 
@@ -17,8 +20,10 @@ public static class Module
         services.AddScoped<IVeryfiService, VeryfiService>();
         services.AddScoped<IUnitOfWork, UnitOfWork>();
         services.AddTransient<ITransactionService, TransactionService>();
+        services.AddTransient<IItemService, ItemService>();
         
-        services.AddSignalR();
+        services.AddOptions<VeryfiSettings>().BindConfiguration("VeryfiSettings");
+        
         services.AddControllers();
         services.AddEndpointsApiExplorer();
         services.AddSwaggerGen();
@@ -26,7 +31,7 @@ public static class Module
         services.AddHttpClient();
     }
     
-    public static void ConfigureCors(this IServiceCollection services)
+    private static void ConfigureCors(this IServiceCollection services)
     {
         services.AddCors(o =>
         {

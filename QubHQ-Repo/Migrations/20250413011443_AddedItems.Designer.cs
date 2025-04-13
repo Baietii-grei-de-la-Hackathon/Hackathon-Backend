@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using QubHq_Repo;
 
@@ -11,9 +12,11 @@ using QubHq_Repo;
 namespace QubHq_Repo.Migrations
 {
     [DbContext(typeof(QubHQDbContext))]
-    partial class QubHQDbContextModelSnapshot : ModelSnapshot
+    [Migration("20250413011443_AddedItems")]
+    partial class AddedItems
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

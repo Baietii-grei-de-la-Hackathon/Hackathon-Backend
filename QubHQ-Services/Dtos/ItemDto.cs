@@ -1,6 +1,6 @@
-namespace QubHq_Repo.Models;
+namespace QubHQ_Services.Dtos;
 
-public class Item
+public class ItemDto
 {
     public Guid Id { get; set; }
     public Guid TransactionId { get; set; }

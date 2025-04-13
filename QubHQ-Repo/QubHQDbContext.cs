@@ -14,6 +14,7 @@ public class QubHQDbContext : DbContext
     public DbSet<User> Users { get; set; }
     public DbSet<User> Payees { get; set; }
     public DbSet<Transaction> Transactions { get; set; }
+    public DbSet<Item> Items { get; set; }
 
     protected override void OnModelCreating(ModelBuilder builder)
     {

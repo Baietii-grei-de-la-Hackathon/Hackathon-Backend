@@ -1,8 +1,4 @@
 using Hackathon_Backend.Startup;
-using Microsoft.EntityFrameworkCore;
-using QubHq_Repo;
-using QubHq_Repo.UnitOfWork;
-using QubHQ_Services.Services;
 
 namespace Hackathon_Backend;
 
@@ -28,7 +24,7 @@ public class Program
         app.UseAuthorization();
 
         app.MapControllers();
-
+        
         app.UseCors();
 
         app.Run();
